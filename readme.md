@@ -92,7 +92,13 @@ node_modules
 1. Create Heroku Account
 2. Commit our codebase to git
 3. Install Herokyu CLI and Create App
+check with `heroku -v`
+
 4. Deploy app with git
+`git push heroku master`
+Now you can view the app directly by useing the command
+`heroku open`
+
 5. Heroku deploys the project
 
 ### Subsequent Heroku deploys
