@@ -92,16 +92,81 @@ node_modules
 1. Create Heroku Account
 2. Commit our codebase to git
 3. Install Herokyu CLI and Create App
-check with `heroku -v`
+   check with `heroku -v`
 
 4. Deploy app with git
-`git push heroku master`
-Now you can view the app directly by useing the command
-`heroku open`
+   `git push heroku master`
+   Now you can view the app directly by useing the command
+   `heroku open`
 
 5. Heroku deploys the project
 
 ### Subsequent Heroku deploys
 
-1. Commit codebase with git
-2. Deploy App with Git
+- Commit codebase with git & deploy to heroku
+
+```
+git add .
+git commit -m "Message"
+git push heroku master
+```
+
+---
+
+### Authentication with Google OAuth
+
+Use a helper library `passport` and usinging a `passport strategy` which will
+
+passport strategy: google-oauth20
+
+workflow: put passport and the google-oauth20 strategy inside index.js to contain all of the code in a file, then refactor
+
+```javascript
+// commonjs modules becuase node itself does not support import
+const express = require("express");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const app = express();
+```
+
+Tell passport to create a new GoogleStrategy:
+
+```javascript
+// commonjs modules becuase node itself does not support import
+const express = require("express");
+const passport = require("passport");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const app = express();
+// tells passport to create a new instance of google passport strategy.
+passport.use(new GoogleStrategy());
+```
+
+Then go through the terrible process of signing up on console.developers.google.com and creating an application and gettting the client a client id and client secret.
+
+- Client ID: Public token we can share this with the public
+- ClientSecret: Private token - we don't want anyone to see this!
+
+---
+
+### Hide private keys and files guide from git
+
+**Simplified way (less secure)**
+
+1. Create a config directory and `keys.js` file.
+2. Use a module.exports object to import into index
+
+```javascript
+// /config/keys.js
+module.exports = {
+  googleClientID: "clientid",
+  googleClientSecret: "clientSecret"
+};
+```
+
+3. Add keys.js to `.gitignore`
+
+```javascript
+//.gitignore
+node_modules;
+keys.js;
+```
